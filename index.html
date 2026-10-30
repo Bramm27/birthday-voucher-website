@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Klaim Hadiah 🎁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p50:#fff3f8;--p100:#ffe3ee;--p200:#ffc7dc;--p300:#ff9fc4;--p400:#ff6fa5;--p500:#f0457f;
+  --ink:#5a2a41;--soft:#8a5a72;--gold:#ffd27a;
+  --shadow:0 12px 30px -12px rgba(240,69,127,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);
+  background:linear-gradient(160deg,var(--p50),var(--p100) 55%,#ffeaf2)}
+.script{font-family:'Caveat',cursive;font-weight:700}
+
+/* background */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.55;animation:float 14s ease-in-out infinite}
+.blob.a{width:42vmax;height:42vmax;background:var(--p200);top:-12vmax;left:-10vmax}
+.blob.b{width:36vmax;height:36vmax;background:#ffd9e8;bottom:-12vmax;right:-8vmax;animation-delay:-5s}
+@keyframes float{50%{transform:translate(3vmax,2vmax) scale(1.08)}}
+.hearts{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.heart{position:absolute;bottom:-40px;left:var(--x);font-size:var(--s);color:var(--c);opacity:0;
+  animation:rise var(--t) linear forwards}
+@keyframes rise{10%{opacity:.7}100%{transform:translateY(-110vh) translateX(var(--dx)) rotate(25deg);opacity:0}}
+
+/* deck */
+.deck{position:relative;z-index:2;display:flex;height:100dvh;width:100%;
+  transition:transform .8s cubic-bezier(.77,0,.18,1)}
+.slide{flex:0 0 100%;height:100dvh;overflow-y:auto;overflow-x:hidden;display:flex;
+  padding:max(24px,env(safe-area-inset-top)) 20px 110px}
+.inner{margin:auto;width:100%;max-width:520px;text-align:center}
+.eyebrow{display:inline-block;padding:6px 16px;border-radius:99px;background:#fff;color:var(--p500);
+  font-size:.85rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;box-shadow:var(--shadow)}
+h2.title{font-size:clamp(1.8rem,6vw,2.5rem);font-weight:600;margin:14px 0 6px;line-height:1.15}
+h2.title em{font-style:normal;color:var(--p500)}
+.sub{color:var(--soft);font-size:clamp(.95rem,2.4vw,1.05rem);max-width:420px;margin:0 auto 20px;line-height:1.5}
+
+.reveal{opacity:0;transform:translateY(18px)}
+body.started .slide.active .reveal{animation:up .8s var(--d,0s) both cubic-bezier(.2,.8,.2,1)}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* slide 1 */
+.hero-wrap{position:relative;width:fit-content;margin:0 auto 22px}
+.photo{position:relative;overflow:hidden;display:grid;place-items:center;
+  width:clamp(170px,44vw,230px);aspect-ratio:1;border-radius:50%;
+  background:linear-gradient(135deg,var(--p200),var(--p100));
+  border:8px solid #fff;box-shadow:0 0 0 6px var(--p200),var(--shadow)}
+.photo::after{content:"♥";position:absolute;font-size:2.4rem;color:#fff;opacity:.85}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-wrap .bear{position:absolute;right:-44px;bottom:-6px;width:84px;z-index:3;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(3deg)}}
+h1.big{font-size:clamp(2.1rem,8.5vw,3.4rem);line-height:1.08;font-weight:600;margin:14px 0 6px}
+h1.big span{color:var(--p500)}
+.name{font-size:clamp(2.2rem,8vw,3.2rem);color:var(--p500);line-height:1;margin-bottom:10px}
+.lead{color:var(--soft);max-width:400px;margin:0 auto 24px;line-height:1.5}
+
+/* buttons */
+.btn{font:inherit;font-weight:500;cursor:pointer;border:0;border-radius:99px;padding:13px 26px;color:#fff;
+  background:linear-gradient(135deg,var(--p400),var(--p500));box-shadow:0 10px 22px -8px rgba(240,69,127,.6);
+  transition:transform .2s;text-decoration:none;display:inline-block}
+.btn:hover{transform:translateY(-2px) scale(1.03)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:#fff;color:var(--p500);box-shadow:none;border:2px solid var(--p200)}
+
+/* slide 2: kado */
+.giftbox{width:clamp(190px,52vw,250px);margin:34px auto 0;display:block;cursor:pointer;overflow:visible;
+  animation:wiggle 2.6s ease-in-out infinite}
+.giftbox.open{animation:none;cursor:default}
+@keyframes wiggle{0%,60%,100%{rotate:0deg}68%{rotate:-4deg}76%{rotate:4deg}84%{rotate:-3deg}92%{rotate:3deg}}
+.giftbox .lid{transition:transform .8s cubic-bezier(.3,1.4,.5,1);transform-origin:50% 100%}
+.giftbox.open .lid{transform:translateY(-44px) rotate(-14deg)}
+.tap{margin-top:6px;color:var(--p400);font-size:.95rem;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.prize{display:none;background:#fff;border-radius:26px;padding:20px 22px;box-shadow:var(--shadow);border:2px solid #fff;margin-top:6px}
+.prize.show{display:block;animation:pop .7s cubic-bezier(.2,1.3,.3,1)}
+@keyframes pop{from{transform:scale(.7);opacity:0}}
+.prize .em{font-size:2.6rem}
+.prize small{display:block;color:var(--p400);font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.75rem;margin-top:4px}
+.prize h3{font-size:1.5rem;font-weight:600;margin:2px 0 4px}
+.prize p{color:var(--soft);font-size:.95rem;line-height:1.45;margin-bottom:14px}
+
+/* slide 3: tiket */
+.ticket{filter:drop-shadow(0 14px 18px rgba(240,69,127,.25));margin-bottom:20px;text-align:left}
+.t-top,.t-bot{background:#fff;padding:22px 22px 18px;position:relative}
+.t-top{border-radius:26px 26px 0 0;
+  -webkit-mask:radial-gradient(circle 13px at 0 100%,#0000 98%,#000) left/51% 100% no-repeat,
+               radial-gradient(circle 13px at 100% 100%,#0000 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 13px at 0 100%,#0000 98%,#000) left/51% 100% no-repeat,
+               radial-gradient(circle 13px at 100% 100%,#0000 98%,#000) right/51% 100% no-repeat}
+.t-bot{border-radius:0 0 26px 26px;padding-top:20px;
+  -webkit-mask:radial-gradient(circle 13px at 0 0,#0000 98%,#000) left/51% 100% no-repeat,
+               radial-gradient(circle 13px at 100% 0,#0000 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 13px at 0 0,#0000 98%,#000) left/51% 100% no-repeat,
+               radial-gradient(circle 13px at 100% 0,#0000 98%,#000) right/51% 100% no-repeat}
+.t-bot::before{content:"";position:absolute;top:0;left:18px;right:18px;border-top:3px dashed var(--p200)}
+.t-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.t-head .script{font-size:1.9rem;color:var(--p500);line-height:1}
+.badge{background:var(--p100);color:var(--p500);font-size:.72rem;font-weight:600;letter-spacing:.06em;
+  padding:5px 11px;border-radius:99px;text-transform:uppercase;white-space:nowrap}
+.t-gift{display:flex;gap:14px;align-items:center;margin-top:16px;background:var(--p50);border-radius:18px;padding:12px 14px}
+.t-gift .em{font-size:2.2rem}
+.t-gift small{color:var(--soft);font-size:.78rem}
+.t-gift b{display:block;font-size:1.12rem;font-weight:600}
+.t-row{display:flex;justify-content:space-between;gap:10px;margin-top:12px;font-size:.9rem}
+.t-row span{color:var(--soft)}
+.t-row b{font-weight:500;text-align:right}
+.code{text-align:center;font-size:1.7rem;font-weight:600;letter-spacing:.14em;color:var(--p500);margin-top:2px}
+.bars{height:38px;margin:10px 0 2px;border-radius:6px;opacity:.75;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 11px,var(--ink) 11px 14px,transparent 14px 17px)}
+.t-note{text-align:center;color:var(--soft);font-size:.8rem;margin-top:4px}
+.actions{display:flex;flex-direction:column;gap:10px;align-items:center}
+
+/* nav */
+.nav{position:fixed;z-index:10;left:50%;translate:-50% 0;bottom:max(16px,env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:14px;padding:8px 12px;border-radius:99px;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+.nav button{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;background:var(--p100);
+  color:var(--p500);font-size:1.2rem;transition:.2s}
+.nav button:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:7px}
+.dots i{width:9px;height:9px;border-radius:99px;background:var(--p200);transition:.35s;cursor:pointer}
+.dots i.on{width:26px;background:var(--p500)}
+
+/* musik */
+.music-toggle{position:fixed;z-index:10;top:max(14px,env(safe-area-inset-top));right:14px;width:46px;height:46px;
+  border-radius:50%;border:0;background:rgba(255,255,255,.9);box-shadow:var(--shadow);font-size:1.2rem;cursor:pointer;display:none}
+.music-toggle.show{display:block}
+.music-toggle.playing{animation:spin 6s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;
+  background:rgba(255,224,236,.7);backdrop-filter:blur(14px);transition:opacity .6s,visibility .6s}
+.modal.hide{opacity:0;visibility:hidden}
+.modal-card{background:#fff;border-radius:34px;padding:30px 26px;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 30px 60px -20px rgba(240,69,127,.5);animation:pop .7s cubic-bezier(.2,1.3,.3,1)}
+.modal-card .bear{width:110px;height:102px;margin:-70px auto 6px;display:block;filter:drop-shadow(0 8px 10px rgba(240,69,127,.25))}
+.modal-card h2{font-size:1.5rem;margin-bottom:6px}
+.modal-card p{color:var(--soft);margin-bottom:20px}
+.modal-card .btn{width:100%;margin-bottom:10px}
+
+@media (max-width:420px){.hero-wrap .bear{right:-34px;width:68px}.code{font-size:1.45rem}}
+@media (max-height:640px){.photo{width:130px}.hero-wrap{margin-bottom:12px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+
+<!-- maskot beruang -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bear" viewBox="0 0 120 112">
+    <circle cx="30" cy="38" r="16" fill="#ffb3d1"/><circle cx="30" cy="38" r="8" fill="#ff8fb9"/>
+    <circle cx="90" cy="38" r="16" fill="#ffb3d1"/><circle cx="90" cy="38" r="8" fill="#ff8fb9"/>
+    <ellipse cx="60" cy="68" rx="46" ry="40" fill="#ffd1e3"/>
+    <ellipse cx="60" cy="80" rx="17" ry="12.5" fill="#fff"/>
+    <ellipse cx="60" cy="75" rx="5.5" ry="3.8" fill="#5a2a41"/>
+    <path d="M53 83q7 7 14 0" stroke="#5a2a41" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <circle cx="41" cy="64" r="4.8" fill="#5a2a41"/><circle cx="79" cy="64" r="4.8" fill="#5a2a41"/>
+    <circle cx="42.6" cy="62.4" r="1.6" fill="#fff"/><circle cx="80.6" cy="62.4" r="1.6" fill="#fff"/>
+    <ellipse cx="28" cy="77" rx="7.5" ry="4.5" fill="#ff8fb9" opacity=".6"/>
+    <ellipse cx="92" cy="77" rx="7.5" ry="4.5" fill="#ff8fb9" opacity=".6"/>
+    <path d="M60 6 L44 38 L76 38 Z" fill="#f0457f"/>
+    <circle cx="54" cy="26" r="2.6" fill="#fff" opacity=".8"/><circle cx="64" cy="31" r="2.2" fill="#fff" opacity=".8"/>
+    <circle cx="60" cy="6" r="5" fill="#fff"/>
+  </symbol>
+</svg>
+
+<div class="bg"><div class="blob a"></div><div class="blob b"></div></div>
+<div class="hearts" id="hearts"></div>
+
+<!-- Popup musik -->
+<div class="modal" id="musicModal">
+  <div class="modal-card">
+    <svg class="bear"><use href="#bear"/></svg>
+    <h2>Sebelum mulai…</h2>
+    <p>Mau ditemani lagu biar suasananya makin manis?</p>
+    <button class="btn" id="musicYes">🎵 Boleh, putar lagunya</button>
+    <button class="btn ghost" id="musicNo">Tanpa lagu aja</button>
+  </div>
+</div>
+
+<button class="music-toggle" id="musicToggle" aria-label="Putar/jeda musik">🎵</button>
+<audio id="bgm" loop preload="auto"><source src="assets/music/lagu.mp3" type="audio/mpeg"></audio>
+
+<main class="deck" id="deck">
+
+  <!-- 1. PEMBUKA -->
+  <section class="slide active"><div class="inner">
+    <div class="hero-wrap reveal" style="--d:.1s">
+      <div class="photo"><img src="assets/img/foto.jpg" alt="Foto" onerror="this.style.display='none'"></div>
+      <svg class="bear"><use href="#bear"/></svg>
+    </div>
+    <span class="eyebrow reveal" style="--d:.25s">Ulang tahun part 2 🎁</span>
+    <h1 class="big reveal" style="--d:.35s">Kemarin baru <span>ucapan</span>,<br>sekarang <span>hadiahnya</span></h1>
+    <div class="name script reveal" style="--d:.45s" data-bind="panggilan"></div>
+    <p class="lead reveal" style="--d:.55s" data-bind="intro"></p>
+    <button class="btn reveal" style="--d:.65s" id="startBtn">🎀 Lihat hadiahnya</button>
+  </div></section>
+
+  <!-- 2. KADO -->
+  <section class="slide"><div class="inner">
+    <span class="eyebrow reveal">Waktunya klaim</span>
+    <h2 class="title reveal" style="--d:.1s">Ada <em>kado</em> buat kamu ✨</h2>
+    <div class="reveal" style="--d:.2s">
+      <svg class="giftbox" id="giftbox" viewBox="0 0 240 230" role="button" aria-label="Buka kado">
+        <ellipse cx="120" cy="218" rx="88" ry="10" fill="#f0457f" opacity=".14"/>
+        <rect x="34" y="104" width="172" height="108" rx="14" fill="#ff9fc4"/>
+        <rect x="104" y="104" width="32" height="108" fill="#fff"/>
+        <g class="lid">
+          <rect x="22" y="72" width="196" height="40" rx="14" fill="#ff6fa5"/>
+          <rect x="104" y="72" width="32" height="40" fill="#fff"/>
+          <path d="M120 72C96 34 56 40 70 62c6 10 30 10 50 10z" fill="#fff"/>
+          <path d="M120 72c24-38 64-32 50-10-6 10-30 10-50 10z" fill="#fff"/>
+          <circle cx="120" cy="70" r="9" fill="#ffc7dc"/>
+        </g>
+      </svg>
+      <p class="tap" id="tapHint">tap kadonya buat dibuka 👆</p>
+    </div>
+    <div class="prize" id="prize">
+      <div class="em" id="pEm"></div>
+      <small>Hadiahmu</small>
+      <h3 id="pName"></h3>
+      <p id="pDesc"></p>
+      <button class="btn" id="claimBtn">🎟️ Klaim hadiah</button>
+    </div>
+  </div></section>
+
+  <!-- 3. TIKET KLAIM -->
+  <section class="slide"><div class="inner">
+    <div class="ticket reveal" style="--d:.1s">
+      <div class="t-top">
+        <div class="t-head"><span class="script">Tiket Klaim</span><span class="badge">✓ Berhasil</span></div>
+        <div class="t-gift"><div class="em" id="tEm"></div><div><small>Hadiah</small><b id="tName"></b></div></div>
+        <div class="t-row"><span>Atas nama</span><b data-bind="panggilan"></b></div>
+        <div class="t-row"><span>Diklaim</span><b id="tDate"></b></div>
+      </div>
+      <div class="t-bot">
+        <div class="code" id="tCode"></div>
+        <div class="bars"></div>
+        <div class="t-note" data-bind="catatan"></div>
+      </div>
+    </div>
+    <div class="actions reveal" style="--d:.3s">
+      <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener">💌 Kirim tiket ke pacar</a>
+    </div>
+    <p class="sub reveal" style="--d:.45s;margin:18px auto 0" data-bind="penutup"></p>
+  </div></section>
+
+</main>
+
+<nav class="nav">
+  <button id="prev" aria-label="Sebelumnya">‹</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" aria-label="Berikutnya">›</button>
+</nav>
+
+<script>
+/* ============ EDIT DI SINI ============ */
+const CONFIG = {
+  panggilan: "Sayang",
+  intro: "Kemarin aku baru bisa ngucapin. Hari ini giliran hadiahnya, dan ini beneran ada.",
+  hadiahEmoji: "🎁",
+  hadiahNama: "Hadiah Spesial dari Aku",     // nama hadiah (ganti sesuai hadiah aslinya)
+  hadiahDesk: "Sudah aku siapkan dari kemarin. Klaim dulu, nanti aku kasih langsung.",
+  catatan: "Tunjukkan tiket ini ke aku buat ambil hadiahnya 💗",
+  penutup: "Kirim tiketnya ke aku lewat tombol di atas, nanti kita atur kapan serah terimanya ya.",
+  wa: "6281234567890"                         // nomor WA kamu: 62 tanpa 0 dan tanpa +
+};
+/* ====================================== */
+
+/* bind teks */
+document.querySelectorAll('[data-bind]').forEach(el => el.textContent = CONFIG[el.dataset.bind]);
+document.getElementById('pEm').textContent = CONFIG.hadiahEmoji;
+document.getElementById('pName').textContent = CONFIG.hadiahNama;
+document.getElementById('pDesc').textContent = CONFIG.hadiahDesk;
+document.getElementById('tEm').textContent = CONFIG.hadiahEmoji;
+document.getElementById('tName').textContent = CONFIG.hadiahNama;
+
+/* penyimpanan (aman kalau storage diblokir). Tambah ?reset di URL untuk tes ulang */
+const KEY = 'klaim-hadiah';
+if (location.search.includes('reset')) { try { localStorage.removeItem(KEY) } catch(e){} }
+let ticket = null;
+try { ticket = JSON.parse(localStorage.getItem(KEY) || 'null') } catch(e){}
+
+function makeCode(){
+  const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s = ''; for (let i = 0; i < 4; i++) s += abc[Math.random() * abc.length | 0];
+  return 'BDAY-' + s;
+}
+function fmtDate(d){
+  return new Date(d).toLocaleString('id-ID', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+function renderTicket(){
+  if (!ticket) return;
+  document.getElementById('tCode').textContent = ticket.code;
+  document.getElementById('tDate').textContent = fmtDate(ticket.at);
+  const text = `Halo sayang, aku mau klaim hadiah ulang tahunku ya 🎁💗\n\n` +
+    `Hadiah: ${CONFIG.hadiahNama}\nKode tiket: ${ticket.code}\nDiklaim: ${fmtDate(ticket.at)}\n\nKapan bisa aku ambil? 🥺`;
+  document.getElementById('waBtn').href = `https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(text)}`;
+}
+
+/* kado */
+const giftbox = document.getElementById('giftbox');
+const prize = document.getElementById('prize');
+const tapHint = document.getElementById('tapHint');
+function openGift(silent){
+  if (giftbox.classList.contains('open')) return;
+  giftbox.classList.add('open');
+  tapHint.style.display = 'none';
+  setTimeout(() => prize.classList.add('show'), silent ? 0 : 450);
+  if (!silent) confetti(80);
+}
+giftbox.onclick = () => openGift(false);
+
+document.getElementById('claimBtn').onclick = () => {
+  if (!ticket) {
+    ticket = { code: makeCode(), at: Date.now() };
+    try { localStorage.setItem(KEY, JSON.stringify(ticket)) } catch(e){}
+  }
+  renderTicket();
+  confetti(90);
+  setTimeout(() => go(2), 600);
+};
+
+if (ticket) { renderTicket(); openGift(true); }
+
+/* slider */
+const deck = document.getElementById('deck'), slides = [...deck.children];
+const dots = document.getElementById('dots'), prev = document.getElementById('prev'), next = document.getElementById('next');
+let cur = 0;
+slides.forEach((_, i) => { const d = document.createElement('i'); d.onclick = () => go(i); dots.appendChild(d) });
+function go(n){
+  n = Math.max(0, Math.min(slides.length - 1, n));
+  if (n === 2 && !ticket) n = 1;            // tiket hanya bisa dibuka setelah klaim
+  cur = n;
+  deck.style.transform = `translateX(${-cur * 100}%)`;
+  slides.forEach((s, i) => { s.classList.toggle('active', i === cur); s.setAttribute('aria-hidden', i !== cur) });
+  [...dots.children].forEach((d, i) => d.classList.toggle('on', i === cur));
+  prev.disabled = cur === 0;
+  next.disabled = cur === slides.length - 1 || (cur === 1 && !ticket);
+}
+prev.onclick = () => go(cur - 1); next.onclick = () => go(cur + 1);
+document.getElementById('startBtn').onclick = () => { confetti(60); setTimeout(() => go(1), 450) };
+addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1) });
+let sx = 0, sy = 0;
+addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY }, { passive: true });
+addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.3) go(cur + (dx < 0 ? 1 : -1));
+}, { passive: true });
+go(0);
+
+/* musik */
+const bgm = document.getElementById('bgm');
+const modal = document.getElementById('musicModal');
+const toggle = document.getElementById('musicToggle');
+bgm.volume = .7;
+function startShow(){ modal.classList.add('hide'); document.body.classList.add('started'); }
+document.getElementById('musicYes').onclick = () => {
+  bgm.play().then(() => toggle.classList.add('playing')).catch(() => {});
+  toggle.classList.add('show'); startShow();
+};
+document.getElementById('musicNo').onclick = () => { bgm.pause(); startShow(); };
+toggle.onclick = () => {
+  if (bgm.paused) { bgm.play(); toggle.classList.add('playing'); toggle.textContent = '🎵'; }
+  else { bgm.pause(); toggle.classList.remove('playing'); toggle.textContent = '🔇'; }
+};
+
+/* hati melayang */
+const heartsBox = document.getElementById('hearts'), hc = ['#ff9fc4','#ff6fa5','#ffc7dc','#f0457f'];
+setInterval(() => {
+  const h = document.createElement('span'); h.className = 'heart'; h.textContent = '♥';
+  h.style.cssText = `--x:${Math.random()*100}%;--s:${10+Math.random()*18}px;--c:${hc[Math.random()*4|0]};--t:${8+Math.random()*7}s;--dx:${(Math.random()-.5)*80}px`;
+  heartsBox.appendChild(h); setTimeout(() => h.remove(), 16000);
+}, 900);
+
+/* confetti */
+function confetti(n = 60, x = innerWidth / 2, y = innerHeight * .55){
+  const cols = ['#ff6fa5','#ff9fc4','#ffc7dc','#ffd27a','#fff','#f0457f'];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('div'), s = 6 + Math.random() * 8;
+    c.style.cssText = `position:fixed;z-index:60;left:${x}px;top:${y}px;pointer-events:none;width:${s}px;height:${s*1.6}px;
+      border-radius:${Math.random()>.5?'50%':'2px'};background:${cols[Math.random()*cols.length|0]}`;
+    document.body.appendChild(c);
+    const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 220;
+    c.animate([
+      { transform:'translate(-50%,-50%)', opacity:1 },
+      { transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-90}px) rotate(${Math.random()*720}deg)`, opacity:1, offset:.6 },
+      { transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+180}px) rotate(${Math.random()*900}deg)`, opacity:0 }
+    ], { duration:1500+Math.random()*800, easing:'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => c.remove();
+  }
+}
+</script>
+</body>
+</html>
